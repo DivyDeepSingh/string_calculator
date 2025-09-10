@@ -20,6 +20,7 @@ mixin _$CalculatorState {
   String get input => throw _privateConstructorUsedError;
   int? get result => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   /// Create a copy of CalculatorState
   /// with the given fields replaced by the non-null parameter values.
@@ -35,7 +36,7 @@ abstract class $CalculatorStateCopyWith<$Res> {
     $Res Function(CalculatorState) then,
   ) = _$CalculatorStateCopyWithImpl<$Res, CalculatorState>;
   @useResult
-  $Res call({String input, int? result, String? errorMessage});
+  $Res call({String input, int? result, String? errorMessage, bool isLoading});
 }
 
 /// @nodoc
@@ -56,6 +57,7 @@ class _$CalculatorStateCopyWithImpl<$Res, $Val extends CalculatorState>
     Object? input = null,
     Object? result = freezed,
     Object? errorMessage = freezed,
+    Object? isLoading = null,
   }) {
     return _then(
       _value.copyWith(
@@ -71,6 +73,10 @@ class _$CalculatorStateCopyWithImpl<$Res, $Val extends CalculatorState>
                 ? _value.errorMessage
                 : errorMessage // ignore: cast_nullable_to_non_nullable
                       as String?,
+            isLoading: null == isLoading
+                ? _value.isLoading
+                : isLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -86,7 +92,7 @@ abstract class _$$CalculatorStateImplCopyWith<$Res>
   ) = __$$CalculatorStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String input, int? result, String? errorMessage});
+  $Res call({String input, int? result, String? errorMessage, bool isLoading});
 }
 
 /// @nodoc
@@ -106,6 +112,7 @@ class __$$CalculatorStateImplCopyWithImpl<$Res>
     Object? input = null,
     Object? result = freezed,
     Object? errorMessage = freezed,
+    Object? isLoading = null,
   }) {
     return _then(
       _$CalculatorStateImpl(
@@ -121,6 +128,10 @@ class __$$CalculatorStateImplCopyWithImpl<$Res>
             ? _value.errorMessage
             : errorMessage // ignore: cast_nullable_to_non_nullable
                   as String?,
+        isLoading: null == isLoading
+            ? _value.isLoading
+            : isLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -133,6 +144,7 @@ class _$CalculatorStateImpl implements _CalculatorState {
     required this.input,
     this.result,
     this.errorMessage,
+    required this.isLoading,
   });
 
   @override
@@ -141,10 +153,12 @@ class _$CalculatorStateImpl implements _CalculatorState {
   final int? result;
   @override
   final String? errorMessage;
+  @override
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'CalculatorState(input: $input, result: $result, errorMessage: $errorMessage)';
+    return 'CalculatorState(input: $input, result: $result, errorMessage: $errorMessage, isLoading: $isLoading)';
   }
 
   @override
@@ -155,11 +169,14 @@ class _$CalculatorStateImpl implements _CalculatorState {
             (identical(other.input, input) || other.input == input) &&
             (identical(other.result, result) || other.result == result) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, input, result, errorMessage);
+  int get hashCode =>
+      Object.hash(runtimeType, input, result, errorMessage, isLoading);
 
   /// Create a copy of CalculatorState
   /// with the given fields replaced by the non-null parameter values.
@@ -178,6 +195,7 @@ abstract class _CalculatorState implements CalculatorState {
     required final String input,
     final int? result,
     final String? errorMessage,
+    required final bool isLoading,
   }) = _$CalculatorStateImpl;
 
   @override
@@ -186,6 +204,8 @@ abstract class _CalculatorState implements CalculatorState {
   int? get result;
   @override
   String? get errorMessage;
+  @override
+  bool get isLoading;
 
   /// Create a copy of CalculatorState
   /// with the given fields replaced by the non-null parameter values.

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:string_calculator/bloc/calculator_bloc.dart';
 
@@ -48,6 +49,11 @@ class CalculatorView extends StatelessWidget {
                   SizedBox(height: 24.h),
                   TextField(
                     maxLines: 3,
+                    onChanged: (value) {
+                      BlocProvider.of<CalculatorBloc>(
+                        context,
+                      ).add(OnUpdateInputEvent(input: value));
+                    },
                     decoration: InputDecoration(
                       labelText: 'Enter numbers',
                       hintText: 'E.g. 1,2 or 1\\n2,3',
@@ -63,7 +69,11 @@ class CalculatorView extends StatelessWidget {
                   ElevatedButton(
                     onPressed: calculatorState.input.trim().isEmpty
                         ? null
-                        : () {},
+                        : () {
+                            BlocProvider.of<CalculatorBloc>(
+                              context,
+                            ).add(OnCalculateStringEvent());
+                          },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(
                         vertical: 16.h,

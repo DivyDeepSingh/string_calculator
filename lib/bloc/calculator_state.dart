@@ -6,7 +6,9 @@ class CalculatorState with _$CalculatorState {
     required String input,
     int? result,
     String? errorMessage,
+    required bool isLoading,
   }) = _CalculatorState;
 
-  factory CalculatorState.initial() => const CalculatorState(input: '');
+  factory CalculatorState.initial() =>
+      const CalculatorState(input: '', isLoading: false);
 }
