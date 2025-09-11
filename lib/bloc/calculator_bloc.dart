@@ -16,8 +16,12 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
 
       var res = await CalculatorUseCase().add(state.input);
       res.fold(
-        (left) => emit(state.copyWith(isLoading: false, errorMessage: left)),
-        (right) => emit(state.copyWith(isLoading: false, result: right)),
+        (left) => emit(
+          state.copyWith(isLoading: false, errorMessage: left, result: null),
+        ),
+        (right) => emit(
+          state.copyWith(isLoading: false, result: right, errorMessage: null),
+        ),
       );
     });
 
