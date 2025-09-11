@@ -7,6 +7,19 @@ class CalculatorUseCase {
     final n = int.tryParse(numbers.trim());
     if (n != null) return Right(n);
 
-    return const Left('Not a valid number'); // placeholder for later steps
+    // Step 2: handle comma-separated numbers
+    final parts = numbers.split(',');
+    int result = 0;
+
+    for (var part in parts) {
+      final num = int.tryParse(part.trim());
+      if (num != null) {
+        result += num;
+      } else {
+        return Left('Invalid number: $part');
+      }
+    }
+
+    return Right(result);
   }
 }
