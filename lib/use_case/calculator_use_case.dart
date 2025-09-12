@@ -8,50 +8,60 @@ class CalculatorUseCase {
       final n = int.tryParse(numbers.trim());
       if (n != null) return Right(n);
 
-      String delimiter = ',';
-      bool isMultiCharDelimiter = false;
+      // default delimiters
+      final delimiters = [',', '\n'];
 
+      // Handle custom delimiters
       if (numbers.startsWith('//')) {
-        int delimiterEndIndex = numbers.indexOf(r'\n');
-        if (delimiterEndIndex == -1) {
-          delimiterEndIndex = numbers.indexOf(r'\n');
-        }
-
-        if (delimiterEndIndex == -1) {
+        final newlineIndex = numbers.indexOf(r'\n');
+        if (newlineIndex == -1) {
           return Left('Invalid input: missing newline after delimiter');
         }
-        final delimiterPart = numbers.substring(2, delimiterEndIndex);
-        numbers = numbers.substring(delimiterEndIndex + 1);
 
-        if (delimiterPart.startsWith('[') && delimiterPart.endsWith(']')) {
-          delimiter = delimiterPart.substring(1, delimiterPart.length - 1);
-          isMultiCharDelimiter = true;
+        final delimiterPart = numbers.substring(2, newlineIndex);
+        numbers = numbers.substring(newlineIndex + 1);
+
+        if (delimiterPart.startsWith('[')) {
+          // multiple delimiters inside []
+          final matches = RegExp(r'\[(.*?)\]').allMatches(delimiterPart);
+          for (var m in matches) {
+            delimiters.add(m.group(1)!);
+          }
         } else {
-          delimiter = delimiterPart;
+          // single delimiter
+          delimiters.add(delimiterPart);
         }
       }
 
-      numbers = numbers
-          .replaceAll(r'\n', delimiter)
-          .replaceAll('\n', delimiter);
+      // Replace all delimiters with a single comma
+      for (var d in delimiters) {
+        numbers = numbers.split(d).join(',');
+      }
 
-      final parts = isMultiCharDelimiter
-          ? numbers.split(RegExp(RegExp.escape(delimiter)))
-          : numbers.split(delimiter);
+      // Split by comma
+      final parts = numbers.split(',');
 
       int result = 0;
       final negatives = <int>[];
       for (var part in parts) {
-        final num = int.tryParse(part.trim()) ?? 0;
-        if (num < 0) {
-          negatives.add(num);
+        if (part.trim().isEmpty) continue;
+        if (part.contains("n")) {
+          part = part.replaceAll("n", "");
+        }
+        final numPart = int.tryParse(part.trim());
+        if (numPart == null) continue;
+
+        if (numPart < 0) {
+          negatives.add(numPart);
         } else {
-          result += num;
+          result += numPart;
         }
       }
+
       if (negatives.isNotEmpty) {
         return Left('negative numbers not allowed ${negatives.join(", ")}');
       }
+
       return Right(result);
     } catch (e) {
       return Left(e.toString());

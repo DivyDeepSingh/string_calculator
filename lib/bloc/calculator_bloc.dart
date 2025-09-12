@@ -9,7 +9,9 @@ part 'calculator_bloc.freezed.dart';
 
 class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   CalculatorBloc() : super(CalculatorState.initial()) {
-    on<InitialCalculatorEvent>((event, emit) {});
+    on<InitialCalculatorEvent>((event, emit) {
+      emit(CalculatorState.initial());
+    });
 
     on<OnCalculateStringEvent>((event, emit) async {
       emit(state.copyWith(isLoading: true));
